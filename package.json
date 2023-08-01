@@ -14,8 +14,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "auto-translate.helloWorld",
-        "title": "Hello World"
+        "command": "auto-translate.extractTranslation",
+        "title": "Extract key and translate"
       }
     ]
   },
