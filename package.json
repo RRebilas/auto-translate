@@ -15,7 +15,26 @@
     "commands": [
       {
         "command": "auto-translate.extractTranslation",
-        "title": "Extract key and translate"
+        "title": "AutoTranslate: Extract key and translate"
+      },
+      {
+        "command": "auto-translate.setPathToTranslationFiles",
+        "title": "AutoTranslate: Set path to files with translations e.g. /src/assets/i18n"
+      }
+    ],
+    "configuration": [
+      {
+        "title": "AutoTranslate",
+        "properties": {
+          "autoTranslate.settings.pathToTranslationFiles": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "default": "src/assets/i18n",
+            "description": "Set path to files with translations e.g. /src/assets/i18n"
+          }
+        }
       }
     ]
   },
