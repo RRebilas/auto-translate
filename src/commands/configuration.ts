@@ -11,6 +11,7 @@ export const PathToTranslationFiles = vscode.commands.registerCommand(
     };
 
     const path = await vscode.window.showInputBox(inputBoxConf);
+
     if (!path) {
       showMessage("No path specified");
       return;
