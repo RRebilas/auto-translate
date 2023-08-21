@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import * as vscode from "vscode";
 import {
+  assignValueByPath,
   createDefaultKeyFromValue,
   getConfigurationProperty,
   getHighlightedText,
   showMessage,
 } from "../utils";
-const fs = require("fs");
 
 export const ExtractTranslation = vscode.commands.registerCommand(
   "auto-translate.extractTranslation",
@@ -19,9 +19,9 @@ export const ExtractTranslation = vscode.commands.registerCommand(
       value: createDefaultKeyFromValue(selection),
     };
 
-    const key = await vscode.window.showInputBox(inputBoxConf);
+    const keyPath = await vscode.window.showInputBox(inputBoxConf);
 
-    if (!key) {
+    if (!keyPath) {
       showMessage("No key specified");
       return;
     }
@@ -43,9 +43,12 @@ export const ExtractTranslation = vscode.commands.registerCommand(
 
     filesPaths.forEach(async (uri) => {
       const content = (await vscode.workspace.fs.readFile(uri)).toString();
-      const newContent = content + `\n "${key}": "${selection}"`;
-      const updatedContent = Buffer.from(newContent, "utf-8");
-      await vscode.workspace.fs.writeFile(uri, updatedContent);
+      const originalObject = JSON.parse(content);
+      assignValueByPath(originalObject, keyPath, selection);
+      vscode.workspace.fs.writeFile(
+        uri,
+        Buffer.from(JSON.stringify(originalObject))
+      );
     });
   }
 );

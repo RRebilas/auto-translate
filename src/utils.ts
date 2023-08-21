@@ -36,3 +36,23 @@ export const getHighlightedText = (): string | undefined => {
     return editor.document.getText(selectionRange);
   }
 };
+
+export const assignValueByPath = (
+  obj: any,
+  keyPath: string,
+  value: any
+): void => {
+  const keys = keyPath.split(".");
+  let currentObj = obj;
+
+  for (let i = 0; i < keys.length - 1; i++) {
+    const key = keys[i];
+    if (!currentObj[key]) {
+      currentObj[key] = {}; // Create an empty object if the key doesn't exist
+    }
+    currentObj = currentObj[key]; // Continue traversing the existing object
+  }
+
+  const finalKey = keys[keys.length - 1];
+  currentObj[finalKey] = value;
+};
