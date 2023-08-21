@@ -8,6 +8,8 @@ import {
   showMessage,
 } from "../utils";
 
+import fetch from "node-fetch";
+
 export const ExtractTranslation = vscode.commands.registerCommand(
   "auto-translate.extractTranslation",
   async () => {
@@ -44,7 +46,26 @@ export const ExtractTranslation = vscode.commands.registerCommand(
     filesPaths.forEach(async (uri) => {
       const content = (await vscode.workspace.fs.readFile(uri)).toString();
       const originalObject = JSON.parse(content);
-      assignValueByPath(originalObject, keyPath, selection);
+      const body = JSON.stringify({ text: [selection], target_lang: "DE" });
+
+      const response = await fetch("https://api-free.deepl.com/v2/translate", {
+        body,
+        headers: {
+          Authorization:
+            "DeepL-Auth-Key a7c5e747-8a64-3a6c-e165-14469abbb718:fx",
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      });
+
+      const translatedSelection: {
+        translations: [{ detected_source_language: string; text: string }];
+      } = (await response.json()) as any;
+      assignValueByPath(
+        originalObject,
+        keyPath,
+        translatedSelection.translations[0].text
+      );
       vscode.workspace.fs.writeFile(
         uri,
         Buffer.from(JSON.stringify(originalObject))
