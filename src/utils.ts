@@ -22,7 +22,10 @@ export const getConfigurationProperty = (key: ConfigurationKeys): unknown => {
 
 export type ConfigurationKeys = "pathToTranslationFiles";
 
-export const getHighlightedText = (): string | undefined => {
+export const getHighlightedText = (): {
+  selectedText: string;
+  selection: vscode.Selection;
+} => {
   const editor = vscode.window.activeTextEditor;
   const selection = editor?.selection;
 
@@ -33,8 +36,23 @@ export const getHighlightedText = (): string | undefined => {
       selection.end.line,
       selection.end.character
     );
-    return editor.document.getText(selectionRange);
+
+    return {
+      selectedText: editor.document.getText(selectionRange),
+      selection: selection,
+    };
   }
+  return {} as { selectedText: string; selection: vscode.Selection };
+};
+
+export const replaceTextWithKey = (
+  selection: vscode.Selection,
+  key: string
+): void => {
+  const editor = vscode.window.activeTextEditor;
+  editor?.edit((builder) => {
+    builder.replace(selection, key);
+  });
 };
 
 export const assignValueByPath = (
