@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { TargetLanguageCode } from "deepl-node";
 import * as vscode from "vscode";
-import languageMapper from "../language-mapper";
-import { requestTranslation } from "../utils/api-call";
 import {
   assignValueByPath,
   createDefaultKeyFromValue,
@@ -11,6 +9,8 @@ import {
   replaceTextWithKey,
   showMessage,
 } from "../utils/common";
+import { Translator } from "../utils/deepl";
+import languageMapper from "../utils/language-mapper";
 
 export const ExtractTranslation = vscode.commands.registerCommand(
   "auto-translate.extractTranslation",
@@ -56,11 +56,13 @@ export const ExtractTranslation = vscode.commands.registerCommand(
       return;
     }
 
+    const translator = Translator.getInstance();
+
     filesPaths.forEach(async (uri) => {
       const content = (await vscode.workspace.fs.readFile(uri)).toString();
       const originalObject = JSON.parse(content);
 
-      const translation = await requestTranslation({
+      const translation = await translator?.getTranslatedText({
         text: selectedText,
         targetLang: languageMapper(uri) as TargetLanguageCode,
       });
@@ -77,7 +79,6 @@ export const ExtractTranslation = vscode.commands.registerCommand(
       );
     });
 
-    // if in html, then translate pipe else key only
     replaceTextWithKey(selection, keyPath);
   }
 );
