@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { extensionConfiguration, showMessage } from "../utils";
+import { extensionConfiguration, showMessage } from "../utils/common";
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const SetPathToTranslationFiles = vscode.commands.registerCommand(

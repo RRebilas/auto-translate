@@ -1,7 +1,8 @@
-import fetch from "node-fetch";
 /* eslint-disable @typescript-eslint/naming-convention */
+import { TargetLanguageCode } from "deepl-node";
 import * as vscode from "vscode";
 import languageMapper from "../language-mapper";
+import { requestTranslation } from "../utils/api-call";
 import {
   assignValueByPath,
   createDefaultKeyFromValue,
@@ -9,7 +10,7 @@ import {
   getHighlightedText,
   replaceTextWithKey,
   showMessage,
-} from "../utils";
+} from "../utils/common";
 
 export const ExtractTranslation = vscode.commands.registerCommand(
   "auto-translate.extractTranslation",
@@ -55,37 +56,20 @@ export const ExtractTranslation = vscode.commands.registerCommand(
       return;
     }
 
-    // TODO: extract it to separate functions
-
     filesPaths.forEach(async (uri) => {
       const content = (await vscode.workspace.fs.readFile(uri)).toString();
       const originalObject = JSON.parse(content);
-      const body = JSON.stringify({
-        // TODO: handle parameters: do not translate
-        text: [selectedText],
-        target_lang: languageMapper(uri),
+
+      const translation = await requestTranslation({
+        text: selectedText,
+        targetLang: languageMapper(uri) as TargetLanguageCode,
       });
 
-      // TODO: add error catching
-      const response = await fetch("https://api-free.deepl.com/v2/translate", {
-        body,
-        headers: {
-          Authorization:
-            "DeepL-Auth-Key a7c5e747-8a64-3a6c-e165-14469abbb718:fx",
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      });
+      if (!translation) {
+        return;
+      }
 
-      const translatedSelection: {
-        translations: [{ detected_source_language: string; text: string }];
-      } = (await response.json()) as any;
-
-      assignValueByPath(
-        originalObject,
-        keyPath,
-        translatedSelection.translations[0].text
-      );
+      assignValueByPath(originalObject, keyPath, translation);
 
       vscode.workspace.fs.writeFile(
         uri,
