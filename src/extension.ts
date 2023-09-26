@@ -15,7 +15,8 @@ export function activate(context: vscode.ExtensionContext) {
   // The command has been defined in the package.json file
   context.subscriptions.push(
     COMMANDS.ExtractTranslation,
-    COMMANDS.SetPathToTranslationFiles
+    COMMANDS.SetPathToTranslationFiles,
+    COMMANDS.SetApiKey
   );
 }
 

@@ -20,8 +20,6 @@ export const getConfigurationProperty = (key: ConfigurationKeys): unknown => {
   return extensionConfiguration().get(key);
 };
 
-export type ConfigurationKeys = "pathToTranslationFiles";
-
 export const getHighlightedText = (): {
   selectedText: string;
   selection: vscode.Selection;
@@ -74,3 +72,5 @@ export const assignValueByPath = (
   const finalKey = keys[keys.length - 1];
   currentObj[finalKey] = value;
 };
+
+export type ConfigurationKeys = "pathToTranslationFiles" | "deepLApiKey";

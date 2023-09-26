@@ -22,4 +22,21 @@ export const SetPathToTranslationFiles = vscode.commands.registerCommand(
 );
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-// export const SetApiKey = vscode.commands.
+export const SetApiKey = vscode.commands.registerCommand(
+  "auto-translate.setDeepLApiKey",
+  async () => {
+    const inputBoxConf: vscode.InputBoxOptions = {
+      title: "Enter you key for deepL API",
+      value: undefined,
+    };
+
+    const apiKey = await vscode.window.showInputBox(inputBoxConf);
+
+    if (!apiKey) {
+      showMessage("No api key specified");
+      return;
+    }
+
+    await extensionConfiguration().update("deepLApiKey", apiKey);
+  }
+);

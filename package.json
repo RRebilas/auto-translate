@@ -20,6 +20,10 @@
       {
         "command": "auto-translate.setPathToTranslationFiles",
         "title": "AutoTranslate: Set path to files with translations e.g. /src/assets/i18n"
+      },
+      {
+        "command": "auto-translate.setDeepLApiKey",
+        "title": "AutoTranslate: Enter key for deepL translation API"
       }
     ],
     "configuration": [
@@ -33,6 +37,14 @@
             ],
             "default": "src/assets/i18n",
             "description": "Set path to files with translations e.g. /src/assets/i18n"
+          },
+          "autoTranslate.settings.deepLApiKey": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "default": null,
+            "description": "Set your personal key for deepL API."
           }
         }
       }
