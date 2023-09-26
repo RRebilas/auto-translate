@@ -61,7 +61,6 @@ export const ExtractTranslation = vscode.commands.registerCommand(
       const content = (await vscode.workspace.fs.readFile(uri)).toString();
       const originalObject = JSON.parse(content);
       const body = JSON.stringify({
-        // TODO: add source language?
         // TODO: handle parameters: do not translate
         text: [selectedText],
         target_lang: languageMapper(uri),
@@ -71,7 +70,6 @@ export const ExtractTranslation = vscode.commands.registerCommand(
       const response = await fetch("https://api-free.deepl.com/v2/translate", {
         body,
         headers: {
-          // TODO: Replace with configuration api key
           Authorization:
             "DeepL-Auth-Key a7c5e747-8a64-3a6c-e165-14469abbb718:fx",
           "Content-Type": "application/json",

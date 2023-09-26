@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import { extensionConfiguration, showMessage } from "../utils";
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const PathToTranslationFiles = vscode.commands.registerCommand(
+export const SetPathToTranslationFiles = vscode.commands.registerCommand(
   "auto-translate.setPathToTranslationFiles",
   async () => {
     const inputBoxConf: vscode.InputBoxOptions = {
@@ -20,3 +20,6 @@ export const PathToTranslationFiles = vscode.commands.registerCommand(
     await extensionConfiguration().update("pathToTranslationFiles", path);
   }
 );
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+// export const SetApiKey = vscode.commands.
