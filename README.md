@@ -1,71 +1,40 @@
 # auto-translate README
 
-This is the README for your extension "auto-translate". After writing up a brief description, we recommend including the following sections.
+This is the README for auto-translate translations. It is used for simplification of translating plain texts for many languages concurrently.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+#### Translate selected text in two easy steps!
 
-For example if there is an image subfolder under your extension project workspace:
+1. Select the text, that you want to translate.
+1. Open command pallete (ctrl + shift + p | cmd + shift + p)
+1. Type in "AutoTranslate: Extract key and translate"
+1. Type in key for selected text, that would appear in json file (supported nested objects with dot notation).
+1. Shortly after, translated text would appear in every language file!
 
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+![Alt Text](./src/assets/images/attut.gif)
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+This extenstion assumes, that you are developing in **Angular**, with use of **ngx-translate** library for translations. For now it uses **DeepL** API for translations and requires specifying your personal API key (free one) to make http requests.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
 This extension contributes the following settings:
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- `autoTranslate.settings.pathToTranslationFiles`: Specify path for translation files. Default 'src/assets/i18n'.
+- `autoTranslate.settings.pathToTranslationFiles.deepLApiKey`: Set to your api key, after creating account in deepL service.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### 0.0.1
 
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+- Translate selected text and write translations into `json` files
 
 **Enjoy!**
+
+## Features to add
+
+- Skipping translation of parameters.
+- Wrapping with text interpolation and adding translate pipe in `.html` files.
+- You tell me!
