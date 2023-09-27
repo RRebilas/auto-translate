@@ -26,6 +26,15 @@
         "title": "AutoTranslate: Enter key for deepL translation API"
       }
     ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "editorHasSelection",
+          "command": "auto-translate.extractTranslation",
+          "group": "1_diff"
+        }
+      ]
+    },
     "configuration": [
       {
         "title": "AutoTranslate",
