@@ -59,6 +59,10 @@
       }
     ]
   },
+  "repository": {
+    "url": "https://github.com/RRebilas/auto-translate",
+    "type": "github"
+  },
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "webpack",
