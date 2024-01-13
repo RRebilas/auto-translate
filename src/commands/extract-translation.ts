@@ -10,6 +10,7 @@ import {
   showMessage,
 } from "../utils/common";
 import { Translator } from "../utils/deepl";
+import replaceParameters from "../utils/keepTranslationParameters";
 import languageMapper from "../utils/language-mapper";
 
 export const ExtractTranslation = vscode.commands.registerCommand(
@@ -71,7 +72,12 @@ export const ExtractTranslation = vscode.commands.registerCommand(
         return;
       }
 
-      assignValueByPath(originalObject, keyPath, translation);
+      const textWithOriginalParameters = replaceParameters(
+        selectedText,
+        translation
+      );
+
+      assignValueByPath(originalObject, keyPath, textWithOriginalParameters);
 
       vscode.workspace.fs.writeFile(
         uri,
