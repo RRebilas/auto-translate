@@ -31,10 +31,13 @@ This extension contributes the following settings:
 
 - Translate selected text and write translations into `json` files
 
+### 0.2.0
+
+- Keep translation params untranslated.
+- Generate text interpolation in .html files with translate pipe and in .ts files.
+
 **Enjoy!**
 
 ## Features to add
 
-- Skipping translation of parameters.
-- Wrapping with text interpolation and adding translate pipe in `.html` files.
 - You tell me!

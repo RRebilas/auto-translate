@@ -6,7 +6,8 @@ import {
   createDefaultKeyFromValue,
   getConfigurationProperty,
   getHighlightedText,
-  replaceTextWithKey,
+  getTranslationParametersFromText,
+  replaceTextWithTranslation as replaceTextWithTranslationKey,
   showMessage,
 } from "../utils/common";
 import { Translator } from "../utils/deepl";
@@ -85,6 +86,10 @@ export const ExtractTranslation = vscode.commands.registerCommand(
       );
     });
 
-    replaceTextWithKey(selection, keyPath);
+    replaceTextWithTranslationKey(
+      selection,
+      keyPath,
+      getTranslationParametersFromText(selectedText)
+    );
   }
 );

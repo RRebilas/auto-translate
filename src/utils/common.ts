@@ -43,13 +43,29 @@ export const getHighlightedText = (): {
   return {} as { selectedText: string; selection: vscode.Selection };
 };
 
-export const replaceTextWithKey = (
+export const replaceTextWithTranslation = (
   selection: vscode.Selection,
-  key: string
+  key: string,
+  params: RegExpMatchArray | null
 ): void => {
   const editor = vscode.window.activeTextEditor;
+  const fileName = editor?.document.fileName;
+  const paramsContent = buildParametersContent(params);
+  let finalContent = "";
+  let baseContent = fileName?.endsWith(".html")
+    ? `"${key}" | translate`
+    : `'${key}'`;
+
+  if (paramsContent) {
+    finalContent = fileName?.endsWith(".html")
+      ? `${baseContent}: ${paramsContent} `
+      : `${baseContent}, ${paramsContent}`;
+  } else {
+    finalContent = baseContent;
+  }
+
   editor?.edit((builder) => {
-    builder.replace(selection, key);
+    builder.replace(selection, finalContent);
   });
 };
 
@@ -71,6 +87,25 @@ export const assignValueByPath = (
 
   const finalKey = keys[keys.length - 1];
   currentObj[finalKey] = value;
+};
+
+export const buildParametersContent = (parameters: RegExpMatchArray | null) => {
+  let content = (params: string) => `{${params}}`;
+  let paramsContent = "";
+
+  parameters?.forEach(
+    // Remove {{}} to keep only parameters names
+    (param) => (paramsContent += `${param.slice(2, -2)}: '',`)
+  );
+
+  return !paramsContent ? "" : content(paramsContent);
+};
+
+export const getTranslationParametersFromText = (
+  translation: string
+): RegExpMatchArray | null => {
+  const curlyBracesRegex = /\{\{\s*(.+?)\s*\}\}/g;
+  return translation.match(curlyBracesRegex);
 };
 
 export type ConfigurationKeys = "pathToTranslationFiles" | "deepLApiKey";
