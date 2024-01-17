@@ -95,7 +95,10 @@ export const buildParametersContent = (parameters: RegExpMatchArray | null) => {
 
   parameters?.forEach(
     // Remove {{}} to keep only parameters names
-    (param) => (paramsContent += `${param.slice(2, -2)}: '',`)
+    (param, index) =>
+      (paramsContent += `${param.slice(2, -2)}: ''${
+        index === parameters.length - 1 ? "" : ", "
+      }`)
   );
 
   return !paramsContent ? "" : content(paramsContent);
